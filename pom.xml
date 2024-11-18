@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>50864e32-545b-42df-954c-a3abb32885f0</groupId>
-	<artifactId>s-smoron-pre</artifactId>
+	<artifactId>s-smoron</artifactId>
 	<version>1.0.3</version>
 	<packaging>mule-application</packaging>
 
-	<name>s-smoron-pre</name>
+	<name>s-smoron</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
