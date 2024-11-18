@@ -17,7 +17,7 @@
 		<region>Cloudhub-US-East-2</region> <!-- make sure it's one of these Target Names: https://docs.mulesoft.com/cloudhub-2/ch2-architecture#regions-and-dns-records -->
 		<app.name>s-smoron-pre</app.name>
 		<type>rest-api</type>
-		<mule.env>PRE</mule.env>
+		<env>PRE</env>
 		<serverId>Repository</serverId> <!-- can be whatever you want, just make sure it matches the settings.xml -->
 		<munit.version>3.1.0</munit.version>
 	</properties>
