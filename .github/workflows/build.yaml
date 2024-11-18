@@ -54,16 +54,6 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: artifacts
-      - name: Publish to Exchange
-        env:
-          CLIENT_ID: ${{ secrets.CONNECTED_APP_CLIENT_ID }}
-          CLIENT_SECRET: ${{ secrets.CONNECTED_APP_CLIENT_SECRET }}
-          KEY: ${{ secrets.encryption_key }}
-        run: |
-          mvn deploy --settings .maven/settings.xml -DskipMunitTests \
-          -Dclient.id="$CLIENT_ID" \
-          -Dclient.secret="$CLIENT_SECRET"
-          -Dencryption.key="$KEY"
 
       - name: Deploy to CloudHub 2.0
         env:
