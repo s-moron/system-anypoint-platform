@@ -4,7 +4,7 @@
 
 	<groupId>50864e32-545b-42df-954c-a3abb32885f0</groupId>
 	<artifactId>s-smoron</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.2</version>
 	<packaging>mule-application</packaging>
 
 	<name>s-smoron</name>
@@ -39,7 +39,7 @@
 						<muleVersion>${app.runtime}</muleVersion>
 						<username>${anypoint.username}</username>
 						<password>${anypoint.password}</password>
-						<applicationName>s-smoron</applicationName>
+						<applicationName>s-smoron-pre</applicationName>
 						<environment>${mule.env}</environment>
 						<workerType>MICRO</workerType>
 						<region>us-east-2</region>
