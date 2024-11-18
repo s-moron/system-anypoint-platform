@@ -16,7 +16,7 @@
 		<app.runtime>4.4.0</app.runtime>
 		<app.name>s-smoron-pre</app.name>
 		<type>rest-api</type>
-		<mule.maven.plugin.version>3.8.0</mule.maven.plugin.version>
+		<mule.maven.plugin.version>4.2.0</mule.maven.plugin.version>
 		<mule.env>PRE</mule.env>
 		<munit.version>2.3.13</munit.version>
 	</properties>
