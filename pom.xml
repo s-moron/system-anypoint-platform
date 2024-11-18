@@ -4,7 +4,7 @@
 
 	<groupId>50864e32-545b-42df-954c-a3abb32885f0</groupId>
 	<artifactId>s-smoron-pre</artifactId>
-	<version>1.0.4</version>
+	<version>1.0.5</version>
 	<packaging>mule-application</packaging>
 
 	<name>s-smoron</name>
@@ -12,13 +12,14 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-		<app.runtime>4.4.0</app.runtime>
+		<mule.maven.plugin.version>4.1.1</mule.maven.plugin.version> <!-- use at least v4.1.0 -->
+		<releaseChannel>NONE</releaseChannel> <!-- use `NONE` for Mule Runtime 4.4 or `LTS`/`EDGE` for 4.6+ -->
+		<region>Cloudhub-US-East-2</region> <!-- make sure it's one of these Target Names: https://docs.mulesoft.com/cloudhub-2/ch2-architecture#regions-and-dns-records -->
 		<app.name>s-smoron-pre</app.name>
 		<type>rest-api</type>
-		<mule.maven.plugin.version>4.1.1</mule.maven.plugin.version>
 		<mule.env>PRE</mule.env>
-		<munit.version>2.3.13</munit.version>
+		<serverId>Repository</serverId> <!-- can be whatever you want, just make sure it matches the settings.xml -->
+		<munit.version>3.1.0</munit.version>
 	</properties>
 
 	<build>
@@ -26,38 +27,44 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.0.0</version>
 			</plugin>
 			<plugin>
-				<groupId>org.mule.tools.maven</groupId>
-				<artifactId>mule-maven-plugin</artifactId>
-				<version>${mule.maven.plugin.version}</version>
-				<extensions>true</extensions>
-				<configuration>
-					<classifier>mule-application</classifier>
-					<cloudhub2Deployment>
-						<uri>https://anypoint.mulesoft.com</uri>
-						<provider>MC</provider>
-						<environment>${mule.env}</environment>
-						<target>cloudhub-us-east-2</target>
-						<server>Repository</server>
-						<applicationName>${project.artifactId}</applicationName>
-						<releaseChannel>NONE</releaseChannel>
-						<replicas>1</replicas>
-						<vCores>0.1</vCores>
-						<deploymentSettings>
-							<generateDefaultPublicUrl>true</generateDefaultPublicUrl>
-						</deploymentSettings>
-						<!-- Start: SECURED PROPERTIES CI/CD -->
+                <groupId>org.mule.tools.maven</groupId>
+                <artifactId>mule-maven-plugin</artifactId>
+                <version>${mule.maven.plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <classifier>mule-application</classifier>
+                    <cloudhub2Deployment>
+                        <uri>https://anypoint.mulesoft.com</uri>
+                        <provider>MC</provider>
+                        <environment>${env}</environment>
+                        <target>${region}</target>
+                        <server>${serverId}</server> <!-- this is where our credentials will be stored -->
+                        <applicationName>${project.artifactId}</applicationName>
+						<releaseChannel>${releaseChannel}</releaseChannel>
+                        <replicas>1</replicas>
+                        <vCores>0.1</vCores>
+                        <deploymentSettings>
+                            <generateDefaultPublicUrl>true</generateDefaultPublicUrl>
+                        </deploymentSettings>
+                        <!-- Start: SECURED PROPERTIES CI/CD -->
+						<secureProperties>
+							<secure.key>${decryption.key}</secure.key> <!-- this comes from the build.yml / github secrets -->
+						</secureProperties>
+						<!-- End: SECURED PROPERTIES CI/CD -->
+
+						<!-- use `properties` for non-secured values -->
 						<properties>
+							<mule.env>${mule.env}</mule.env>
 							<encryption.key>${encryption.key}</encryption.key>
 							<anypoint.platform.client_id>${anypoint.platform.client_id}</anypoint.platform.client_id>
 							<anypoint.platform.client_secret>${anypoint.platform.client_secret}</anypoint.platform.client_secret>
 						</properties>
-						<!-- End: SECURED PROPERTIES CI/CD -->
-					</cloudhub2Deployment>
-				</configuration>
-			</plugin>
+                    </cloudhub2Deployment>
+                </configuration>
+            </plugin>
 			<plugin>
 				<groupId>com.mulesoft.munit.tools</groupId>
 				<artifactId>munit-maven-plugin</artifactId>
@@ -100,51 +107,17 @@
 		</plugins>
 	</build>
 
-	<repositories>
-		<repository>
-			<id>anypoint-exchange-v3</id>
-			<name>Anypoint Exchange</name>
-			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
-			<layout>default</layout>
-		</repository>
-		<repository>
-			<id>mulesoft-releases</id>
-			<name>MuleSoft Releases Repository</name>
-			<url>https://repository.mulesoft.org/releases/</url>
-			<layout>default</layout>
-		</repository>
-		<repository>
-			<id>Repository</id>
-			<name>Private Exchange repository</name>
-			<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
-			<layout>default</layout>
-		</repository>
-		
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>mulesoft-releases</id>
-			<name>MuleSoft Releases Repository</name>
-			<layout>default</layout>
-			<url>https://repository.mulesoft.org/releases/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
-
-
 	<dependencies>
 		<dependency>
 			<groupId>org.mule.connectors</groupId>
 			<artifactId>mule-http-connector</artifactId>
-			<version>1.9.3</version>
+			<version>1.6.0</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
 			<groupId>org.mule.connectors</groupId>
 			<artifactId>mule-sockets-connector</artifactId>
-			<version>1.2.4</version>
+			<version>1.2.2</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
@@ -169,10 +142,9 @@
 		<dependency>
 			<groupId>com.mulesoft.modules</groupId>
 			<artifactId>mule-secure-configuration-property-module</artifactId>
-			<version>1.2.7</version>
+			<version>1.2.5</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
-		
 		<dependency>
 			<groupId>com.mulesoft.munit</groupId>
 			<artifactId>munit-runner</artifactId>
@@ -187,16 +159,58 @@
 			<classifier>mule-plugin</classifier>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.mule.weave</groupId>
+			<artifactId>assertions</artifactId>
+			<version>1.0.2</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
-	
 
-	<distributionManagement>
+	<repositories>
 		<repository>
-			<id>Repository</id>
-			<name>Corporate Repository</name>
-			<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
+			<id>anypoint-exchange-v3</id> <!-- make sure to use v3 -->
+			<name>Anypoint Exchange</name>
+			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
 			<layout>default</layout>
 		</repository>
-	</distributionManagement>
+		<repository>
+			<id>mulesoft-releases</id>
+			<name>MuleSoft Releases Repository</name>
+			<url>https://repository.mulesoft.org/releases/</url>
+			<layout>default</layout>
+		</repository>
+		<!-- START: needed for ch2 deployment -->
+		<repository>
+            <id>${serverId}</id>
+            <name>Private Exchange repository</name>
+            <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
+            <layout>default</layout>
+        </repository>
+		<!-- END: needed for ch2 deployment -->
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>mulesoft-releases</id>
+			<name>MuleSoft Releases Repository</name>
+			<layout>default</layout>
+			<url>https://repository.mulesoft.org/releases/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<!-- START: needed for ch2 deployment -->
+	<distributionManagement>
+        <repository>
+            <id>${serverId}</id>
+            <name>Corporate Repository</name>
+            <url>https://maven.anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
+            <layout>default</layout>
+        </repository>
+    </distributionManagement>
+	<!-- END: needed for ch2 deployment -->
 
 </project>

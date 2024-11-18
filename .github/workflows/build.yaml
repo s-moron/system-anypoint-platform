@@ -74,4 +74,5 @@ jobs:
           -Dclient.secret="$CLIENT_SECRET" \
           -Dencryption.key="$KEY" \
           -Danypoint.platform.client_id="a9c24eecf521442f89b2abeadaa35036" \
-          -Danypoint.platform.client_secret="8a8d4882D12345B99568D23efC835687"
+          -Danypoint.platform.client_secret="8a8d4882D12345B99568D23efC835687" \
+          -Dmule.env="pre"
