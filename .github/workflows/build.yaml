@@ -59,9 +59,13 @@ jobs:
         env:
           CLIENT_ID: ${{ secrets.CONNECTED_APP_CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CONNECTED_APP_CLIENT_SECRET }}
+          USERNAME: ${{ secrets.anypoint_platform_username }}
+          PASSWORD: ${{ secrets.anypoint_platform_password }}
           KEY: ${{ secrets.encryption_key }}
         run: |
           mvn deploy --settings .maven/settings.xml -DskipMunitTests -DmuleDeploy \
           -Dclient.id="$CLIENT_ID" \
-          -Dclient.secret="$CLIENT_SECRET"
+          -Dclient.secret="$CLIENT_SECRET" \
+          -Danypoint.username="$USERNAME" \
+          -Danypoint.password="$PASSWORD" \
           -Dencryption.key="$KEY"
