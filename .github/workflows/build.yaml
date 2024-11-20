@@ -63,16 +63,18 @@ jobs:
 
       - name: Publish to Exchange
         run: |
-          mvn deploy --settings .maven/settings.xml -DskipMunitTests \
+          mvn deploy -X --settings .maven/settings.xml -DskipMunitTests \
           -Dclient.id="${{ secrets.CONNECTED_APP_CLIENT_ID }}" \
           -Dclient.secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}"
 
       - name: Deploy to CloudHub 2.0
         run: |
-          mvn deploy --settings .maven/settings.xml -e -DskipMunitTests -DmuleDeploy \
+          mvn deploy --settings .maven/settings.xml -e -X -DskipMunitTests -DmuleDeploy \
           -Dclient.id="$CLIENT_ID" \
           -Dclient.secret="$CLIENT_SECRET" \
           -Dencryption.key="$KEY" \
           -Danypoint.platform.client_id="a9c24eecf521442f89b2abeadaa35036" \
           -Danypoint.platform.client_secret="8a8d4882D12345B99568D23efC835687" \
-          -Dmule.env="pre"
+          -Dmule.env="pre" \
+          -Duser="$USERNAME" \
+          -Dpass="$PASSWORD"
