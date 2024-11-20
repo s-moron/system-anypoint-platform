@@ -41,12 +41,6 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    env:
-      CLIENT_ID: ${{ secrets.CONNECTED_APP_CLIENT_ID }}
-      CLIENT_SECRET: ${{ secrets.CONNECTED_APP_CLIENT_SECRET }}
-      USERNAME: ${{ secrets.anypoint_platform_username }}
-      PASSWORD: ${{ secrets.anypoint_platform_password }}
-      KEY: ${{ secrets.encryption_key }}
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v4
@@ -61,6 +55,12 @@ jobs:
         with:
           name: artifacts
 
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v4
+        with:
+          distribution: "zulu"
+          java-version: 8
+
       - name: Publish to Exchange
         run: |
           mvn deploy --settings .maven/settings.xml -DskipMunitTests \
@@ -70,11 +70,11 @@ jobs:
       - name: Deploy to CloudHub 2.0
         run: |
           mvn deploy --settings .maven/settings.xml -e -X -DskipMunitTests -DmuleDeploy \
-          -Dclient.id="$CLIENT_ID" \
-          -Dclient.secret="$CLIENT_SECRET" \
-          -Dencryption.key="$KEY" \
+          -Dclient.id="${{ secrets.CONNECTED_APP_CLIENT_ID }}" \
+          -Dclient.secret="${{ secrets.CONNECTED_APP_CLIENT_SECRET }}" \
+          -Dencryption.key="${{ secrets.encryption_key }}" \
           -Danypoint.platform.client_id="a9c24eecf521442f89b2abeadaa35036" \
           -Danypoint.platform.client_secret="8a8d4882D12345B99568D23efC835687" \
           -Dmule.env="pre" \
-          -Duser="$USERNAME" \
-          -Dpass="$PASSWORD"
+          -Duser="${{ secrets.anypoint_platform_username }}" \
+          -Dpass="${{ secrets.encryption_key }}"
