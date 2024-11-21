@@ -4,7 +4,7 @@
 
 	<groupId>50864e32-545b-42df-954c-a3abb32885f0</groupId>
 	<artifactId>s-smoron-pre</artifactId>
-	<version>1.0.20</version>
+	<version>1.0.21</version>
 	<packaging>mule-application</packaging>
 
 	<name>s-smoron</name>
@@ -45,7 +45,7 @@
 						<environment>${env}</environment>
 						<target>${region}</target>
 						<server>${serverId}</server>
-						<muleVersion>4.4.0</muleVersion>
+						<muleVersion>4.7.0</muleVersion>
 						<!-- this is where our credentials will be stored -->
 						<applicationName>${project.artifactId}</applicationName>
 						<releaseChannel>${releaseChannel}</releaseChannel>
