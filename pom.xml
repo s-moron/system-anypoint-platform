@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>50864e32-545b-42df-954c-a3abb32885f0</groupId>
-	<artifactId>s-smoron-pre</artifactId>
+	<artifactId>s-smoron-impl</artifactId>
 	<version>1.0.23</version>
 	<packaging>mule-application</packaging>
 
@@ -18,9 +18,9 @@
 		<!-- use `NONE` for Mule Runtime 4.4 or `LTS`/`EDGE` for 4.6+ -->
 		<region>Cloudhub-US-East-2</region>
 		<!-- make sure it's one of these Target Names: https://docs.mulesoft.com/cloudhub-2/ch2-architecture#regions-and-dns-records -->
-		<app.name>s-smoron-pre</app.name>
+		<app.name>s-smoron-impl</app.name>
 		<type>rest-api</type>
-		<env>PRE</env>
+		<env>DEV</env>
 		<serverId>Repository</serverId>
 		<!-- can be whatever you want, just make sure it matches the settings.xml -->
 	</properties>

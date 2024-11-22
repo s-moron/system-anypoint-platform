@@ -2,9 +2,9 @@ name: Build and Deploy to CH2.0
 
 on:
   push:
-    branches: [master]
+    branches: [develop]
   pull_request:
-    branches: [master]
+    branches: [develop]
 
 jobs:
   build:
@@ -69,4 +69,4 @@ jobs:
           -Dencryption.key="${{ secrets.encryption_key }}" \
           -Danypoint.platform.client_id="${{ secrets.ANYPOINT_PLATFORM_CLIENT_ID }}" \
           -Danypoint.platform.client_secret="${{ secrets.ANYPOINT_PLATFORM_CLIENT_SECRET }}" \
-          -Dmule.env="pre"
+          -Dmule.env="dev"
